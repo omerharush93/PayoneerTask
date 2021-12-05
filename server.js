@@ -1,40 +1,77 @@
 "use strict";
-// let MongoClient = require("mongodb").MongoClient;
-// const uri =
-//   "mongodb+srv://omerharush:Zz123456@cluster0.xkhsu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
+let MongoClient = require("mongodb").MongoClient;
+const uri =
+  "mongodb+srv://omerharush:Zz123456@cluster0.xkhsu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const express = require("express");
-var fs = require("fs");
 
 // Constants
 const PORT = 80;
 const HOST = "0.0.0.0";
-
+var DB = "payoneer";
+//var COLLECTION = "test";
+var COLLECTION = process.argv[2].toString();
+console.log(COLLECTION)
 // App
 const app = express();
-app.get("/", (req, res) => {
-    fs.readFile("store.txt","utf8", (err, data) => {
-        if (err) { console.log(err) }
-        res.send('Number of post requests: ' + data.toString());
-    });
- 
+
+// Check if counter exist and create zero counter if not
+MongoClient.connect(uri, function (err, db) {
+  if (err) throw err;
+  var dbo = db.db(DB);
+  dbo
+    .collection(COLLECTION)
+    .updateOne(
+      { counter: { $exists: true } },
+      { $setOnInsert: { counter: 0 } },
+      { upsert: true },
+      function (err, result) {
+        if (err) throw err;
+        if (result.matchedCount == 0) {
+          console.log("Counter doesn't exists, inserts new counter");
+        }
+        db.close();
+      }
+    );
 });
 
+// GET
+app.get("/", (req, res) => {
+  MongoClient.connect(uri, function (err, db) {
+    if (err) throw err;
+    var dbo = db.db(DB);
+    dbo
+      .collection(COLLECTION)
+      .findOne({}, { counter: { $exists: true } }, function (err, result) {
+        if (err) throw err;
+        console.log(result.counter);
+        res.send("Number of post requests: " + result.counter.toString());
+        db.close();
+      });
+  });
+});
+
+// POST
 app.post("/", (req, res) => {
-    fs.readFile("store.txt","utf8", (err, data) => {
-        if (err) { console.log(err) }
-        data++;
-                
-        fs.writeFile("store.txt", data.toString(), (err) => {
-            if (err) console.log(err);
-            console.log("Successfully Written to File.");
-        });
-    });
-    res.send('200');
+  MongoClient.connect(uri, function (err, db) {
+    if (err) throw err;
+    var dbo = db.db(DB);
+    dbo
+      .collection(COLLECTION)
+      .updateOne(
+        { counter: { $exists: true } },
+        { $inc: { counter: 1 } },
+        function (err, result) {
+          if (err) throw err;
+          res.send('200');
+          db.close();
+        }
+      );
+  });
 });
 
 app.listen(PORT, HOST);
