@@ -13,9 +13,8 @@ const express = require("express");
 const PORT = 80;
 const HOST = "0.0.0.0";
 var DB = "payoneer";
-//var COLLECTION = "test";
 var COLLECTION = process.argv[2].toString();
-console.log(COLLECTION)
+
 // App
 const app = express();
 
@@ -32,7 +31,7 @@ MongoClient.connect(uri, function (err, db) {
       function (err, result) {
         if (err) throw err;
         if (result.matchedCount == 0) {
-          console.log("Counter doesn't exists, inserts new counter");
+          console.log("Counter doesn't exists, inserts new counter to DB");
         }
         db.close();
       }
