@@ -4,6 +4,7 @@ pipeline {
     registryCredential = 'DockerHub Credentials'
 //    dockerhostCredentials = 
     dockerImage = ''
+    BRANCH_NAME = "${GIT_BRANCH.replaceFirst(/^.*\//, '')}"    
     }
 
     agent any
@@ -18,8 +19,8 @@ pipeline {
                 steps {
                     script {
                         echo "${env.GIT_BRANCH}"
-                        echo "${env.GIT_LOCAL_BRANCH}"
-                        dockerImage = docker.build registry + ":${env.GIT_LOCAL_BRANCH}"
+                        echo "${BRANCH_NAME}"
+                        dockerImage = docker.build registry + ":${BRANCH_NAME}"
                     }
                 }
             }
@@ -43,7 +44,7 @@ pipeline {
                        sh 'docker stop counter-service'
                        sh 'docker rm counter-service'
                        sh 'docker rmi ${registry}:current'
-                       sh 'docker tag ${registry}:${env.GIT_LOCAL_BRANCH} ${registry}:current'
+                       sh 'docker tag ${registry}:${BRANCH_NAME} ${registry}:current'
                        sh 'docker run -d -e COLLECTION=prod --name counter-service -p 80:80 ${registry}:current'
                    }
                }
@@ -51,7 +52,7 @@ pipeline {
 
             stage('Cleaning Up') {
                 steps{
-                  sh "docker rmi --force $registry:${env.GIT_LOCAL_BRANCH}"
+                  sh "docker rmi --force $registry:${BRANCH_NAME}"
                 }
             }
         }
