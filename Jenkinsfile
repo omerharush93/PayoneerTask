@@ -17,9 +17,9 @@ pipeline {
             stage('Building Docker Image') {
                 steps {
                     script {
-                        echo $GIT_BRANCH
-                        echo $GIT_LOCAL_BRANCH
-                        dockerImage = docker.build registry + ":$GIT_BRANCH"
+                        echo "$(env.GIT_BRANCH}"
+                        echo "$(env.GIT_BRANCH}"
+                        dockerImage = docker.build registry + ":$(env.GIT_BRANCH}"
                     }
                 }
             }
@@ -43,7 +43,7 @@ pipeline {
                        sh 'docker stop counter-service'
                        sh 'docker rm counter-service'
                        sh 'docker rmi ${registry}:current'
-                       sh 'docker tag ${registry}:$GIT_BRANCH ${registry}:current'
+                       sh 'docker tag ${registry}:$(env.GIT_BRANCH} ${registry}:current'
                        sh 'docker run -d -e COLLECTION=prod --name counter-service -p 80:80 ${registry}:current'
                    }
                }
@@ -51,7 +51,7 @@ pipeline {
 
             stage('Cleaning Up') {
                 steps{
-                  sh "docker rmi --force $registry:$BUILD_NUMBER"
+                  sh "docker rmi --force $registry:$(env.GIT_BRANCH}"
                 }
             }
         }
