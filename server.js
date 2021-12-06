@@ -47,8 +47,11 @@ app.get("/", (req, res) => {
       .collection(COLLECTION)
       .findOne({}, { counter: { $exists: true } }, function (err, result) {
         if (err) throw err;
-        console.log(result.counter);
-        res.send("Number of post requests: " + result.counter.toString());
+        else {
+          console.log(result.counter);
+          res.status(200);
+          res.send("Number of post requests: " + result.counter.toString());
+        }
         db.close();
       });
   });
@@ -66,7 +69,10 @@ app.post("/", (req, res) => {
         { $inc: { counter: 1 } },
         function (err, result) {
           if (err) throw err;
-          res.send('200');
+          else {
+            res.status(200);
+            res.send("Counter updated!");
+          }
           db.close();
         }
       );
