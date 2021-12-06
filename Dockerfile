@@ -1,6 +1,6 @@
 FROM node:16
 
-# Envronment var for DB collection name as a parameter
+# Envronment variable for DB collection name as a parameter
 ENV COLLECTION=null
 
 # Create app directory
