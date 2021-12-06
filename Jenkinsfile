@@ -2,7 +2,7 @@ pipeline {
     environment {
     registry = "omerharush93/my-repo"
     registryCredential = 'DockerHub Credentials'
-    dockerhostCredentials
+//    dockerhostCredentials = 
     dockerImage = ''
     }
 
