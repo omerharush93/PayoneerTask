@@ -17,6 +17,8 @@ pipeline {
             stage('Building Docker Image') {
                 steps {
                     script {
+                        echo $GIT_BRANCH
+                        echo $GIT_LOCAL_BRANCH
                         dockerImage = docker.build registry + ":$GIT_BRANCH"
                     }
                 }
