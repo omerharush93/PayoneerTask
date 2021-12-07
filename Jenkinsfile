@@ -1,6 +1,6 @@
 pipeline {
     environment {
-    registry = "omerharush93/my-repo"
+    registry = "omerharush93/payoneer"
     registryCredential = 'DockerHub'
 //    dockerhostCredentials = 
     dockerImage = ''
@@ -40,12 +40,12 @@ pipeline {
                    script {
 //                        sh 'docker login -u $DOCKER_HOST_CREDENTIALS_USR -p $DOCKER_HOST_CREDENTIALS_PSW 127.0.0.1:2375'
                        //dockerImage.pull()  
-                       sh 'docker pull ${dockerImage}'
+                       sh 'docker pull $dockerImage'
                        sh 'docker stop counter-service'
                        sh 'docker rm counter-service'
-                       sh 'docker rmi ${registry}:current'
-                       sh 'docker tag ${registry}:${BRANCH_NAME} ${registry}:current'
-                       sh 'docker run -d -e COLLECTION=prod --name counter-service -p 80:80 ${registry}:current'
+                       sh 'docker rmi $registry:current'
+                       sh 'docker tag $registry:$BRANCH_NAME $registry:current'
+                       sh 'docker run -d -e COLLECTION=prod --name counter-service -p 80:80 $registry:current'
                    }
                }
            }        
