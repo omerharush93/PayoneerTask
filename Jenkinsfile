@@ -40,19 +40,19 @@ pipeline {
                    script {
 //                        sh 'docker login -u $DOCKER_HOST_CREDENTIALS_USR -p $DOCKER_HOST_CREDENTIALS_PSW 127.0.0.1:2375'
                        //dockerImage.pull()  
-                       sh 'docker pull ${dockerImage}'
-                       sh 'docker stop counter-service'
-                       sh 'docker rm counter-service'
-                       sh 'docker rmi ${registry}:current'
-                       sh 'docker tag ${registry}:${BRANCH_NAME} ${registry}:current'
-                       sh 'docker run -d -e COLLECTION=prod --name counter-service -p 80:80 ${registry}:current'
+                       sh 'sudo docker pull ${dockerImage}'
+                       sh 'sudo docker stop counter-service'
+                       sh 'sudo docker rm counter-service'
+                       sh 'sudo docker rmi ${registry}:current'
+                       sh 'sudo docker tag ${registry}:${BRANCH_NAME} ${registry}:current'
+                       sh 'sudo docker run -d -e COLLECTION=prod --name counter-service -p 80:80 ${registry}:current'
                    }
                }
            }        
 
             stage('Cleaning Up') {
                 steps{
-                  sh "docker rmi --force $registry:${env.BRANCH_NAME}"
+                  sh "sudo docker rmi --force $registry:${BRANCH_NAME}"
                 }
             }
         }
