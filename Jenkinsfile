@@ -4,7 +4,8 @@ pipeline {
     registryCredential = 'DockerHub Credentials'
 //    dockerhostCredentials = 
     dockerImage = ''
-    BRANCH_NAME = "$UPSTREAM_BRANCH_NAME.replaceFirst(/^.*\//, '')"
+//    BRANCH_NAME = "${UPSTREAM_BRANCH_NAME.replaceFirst(/^.*\//, '')}"
+    BRANCH_NAME = "${UPSTREAM_BRANCH_NAME.split("/")[1]}"
     }
 
     agent any
