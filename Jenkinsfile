@@ -1,7 +1,7 @@
 pipeline {
     environment {
     registry = "omerharush93/my-repo"
-    registryCredential = 'DockerHub Credentials'
+    registryCredential = 'DockerHub'
 //    dockerhostCredentials = 
     dockerImage = ''
 //    BRANCH_NAME = "${UPSTREAM_BRANCH_NAME.replaceFirst(/^.*\//, '')}"
