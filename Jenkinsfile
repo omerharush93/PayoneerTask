@@ -4,22 +4,25 @@ pipeline {
     registryCredential = 'DockerHub'
 //    dockerhostCredentials = 
     dockerImage = ''
-//    BRANCH_NAME = "${UPSTREAM_BRANCH_NAME.replaceFirst(/^.*\//, '')}"
     BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
     }
 
     agent any
     stages {
-//             stage('Cloning our Git') {
-//                 steps {
-//                 git 'git@github.com/omerharush93/PayoneerTask.git'
-//                 }
-//             }
+            stage('Unit Testsing') {
+                steps {
+                    script {
+                        sh 'npm install'
+//                        sh 'npm test'
+//                        sh 'npm audit --fix
+                    }
+                }
+            }
 
             stage('Building Docker Image') {
                 steps {
                     script {
-                        echo "${BRANCH_NAME}"
+                        echo "Working on branch: ${BRANCH_NAME}"
                         dockerImage = docker.build registry + ":${BRANCH_NAME}"
                     }
                 }
