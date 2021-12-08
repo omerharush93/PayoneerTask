@@ -2,7 +2,7 @@ pipeline {
     environment {
     registry = "omerharush93/payoneer"
     registryCredential = 'DockerHub'
-//     dockerhostCredentials = 
+//    dockerhostCredentials = 
     dockerImage = ''
 //    BRANCH_NAME = "${UPSTREAM_BRANCH_NAME.replaceFirst(/^.*\//, '')}"
     BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
