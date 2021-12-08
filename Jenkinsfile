@@ -5,7 +5,7 @@ pipeline {
 //    dockerhostCredentials = 
     dockerImage = ''
 //    BRANCH_NAME = "${UPSTREAM_BRANCH_NAME.replaceFirst(/^.*\//, '')}"
-    BRANCH_NAME = "${UPSTREAM_BRANCH_NAME.split("/")[1]}"
+    BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
     }
 
     agent any
