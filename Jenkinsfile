@@ -22,7 +22,7 @@ pipeline {
             stage('Push to master') {
                 steps {
                     withCredentials([
-                        gitUsernamePassword(credentialsId: 'GitHub Credentials', gitToolName: 'Default')
+                        gitUsernamePassword(credentialsId: 'GitHub Credentials', gitToolName: 'jgit')
                     ]) {
                         sh "git push"
                     }
