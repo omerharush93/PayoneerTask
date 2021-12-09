@@ -22,9 +22,9 @@ pipeline {
             stage('Push to master') {
                 steps {
                     withCredentials([
-                        gitUsernamePassword(credentialsId: 'GitHub', gitToolName: 'default')
+                        usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')
                     ]) {
-                        sh "git push origin master"
+                        sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@https://github.com/omerharush93/PayoneerTask.git'
                     }
                 }
             }
