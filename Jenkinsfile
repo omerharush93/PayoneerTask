@@ -18,6 +18,14 @@ pipeline {
                     }
                 }
             }
+        
+             stage('Push to master branch') {
+                steps {
+                    script {
+                        sh 'git push origin master'
+                    }
+                }
+            }
 
             stage('Building Docker Image') {
                 steps {
