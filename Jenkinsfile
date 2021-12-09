@@ -24,7 +24,8 @@ pipeline {
                     withCredentials([
                         usernamePassword(credentialsId: 'GitHub', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')
                     ]) {
-                        sh 'git push --force https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/omerharush93/PayoneerTask.git origin master'
+                        sh 'git merge ${BRANCH_NAME}'
+                        sh 'git push origin master'
                     }
                 }
             }
