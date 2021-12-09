@@ -22,9 +22,9 @@ pipeline {
             stage('Push to master') {
                 steps {
                     withCredentials([
-                        gitUsernamePassword(credentialsId: 'GitHub', gitToolName: 'jgit')
+                        gitUsernamePassword(credentialsId: 'GitHub', gitToolName: 'default')
                     ]) {
-                        sh "git push"
+                        sh "git push https://github.com/omerharush93/PayoneerTask"
                     }
                 }
             }
