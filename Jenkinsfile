@@ -24,7 +24,7 @@ pipeline {
                     withCredentials([
                         gitUsernamePassword(credentialsId: 'GitHub', gitToolName: 'default')
                     ]) {
-                        sh "git push https://github.com/omerharush93/PayoneerTask"
+                        sh "git push https://github.com/omerharush93/PayoneerTask.git master"
                     }
                 }
             }
